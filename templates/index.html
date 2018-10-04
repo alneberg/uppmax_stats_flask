@@ -1,7 +1,61 @@
 {% extends "default_base.html" %}
 {% block body %}
 <div class="container">
+    <h2>Wow, I managed to make a plot</h2>
+    <div id='the_plot'>
+    </div>
 </div>
 <script type=text/javascript>
+    Highcharts.chart('the_plot', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Max Memory'
+        },
+        subtitle: {
+            text: 'For individual jobs'
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Max Memory'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: 'Max Memory: <b>{point.y:.2f} GB</b>'
+        },
+    series: [{
+        name: 'Population',
+        data:
+            {{ data | safe }}
+       ,
+       dataLabels: {
+            enabled: true,
+            rotation: -90,
+            color: '#FFFFFF',
+            align: 'right',
+            format: '{point.y:.1f}', // one decimal
+            y: 10, // 10 pixels down from the top
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });
 </script>
 {% endblock body %}
