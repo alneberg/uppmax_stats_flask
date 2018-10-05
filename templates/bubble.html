@@ -1,0 +1,198 @@
+{% extends "default_base.html" %}
+{% block body %}
+<div class="container">
+    <h2>Wow, I managed to make a bubble plot</h2>
+    <div id='mem_bubble_plot'>
+    </div>
+    <div id='cpu_mem_bubble_plot'>
+    </div>
+    <div id='cpu_mem_rel_bubble_plot'>
+    </div>
+</div>
+<script type=text/javascript>
+Highcharts.chart('mem_bubble_plot', {
+
+    chart: {
+        type: 'bubble',
+        plotBorderWidth: 1,
+        zoomType: 'xy'
+    },
+
+    legend: {
+        enabled: false
+    },
+
+    title: {
+        text: 'Job Resource Allocation Efficiency'
+    },
+
+    xAxis: {
+        gridLineWidth: 1,
+        title: {
+            text: 'Memory Allocated (GB)'
+        },
+        labels: {
+            format: '{value} GB'
+        }
+    },
+
+    yAxis: {
+        startOnTick: false,
+        endOnTick: false,
+        title: {
+            text: 'Max Memory Used (GB)'
+        },
+        labels: {
+            format: '{value} GB'
+        },
+        maxPadding: 0.2
+    },
+
+    tooltip: {
+        useHTML: true,
+        headerFormat: '<table>',
+        pointFormat: '<tr><th colspan="2"><h3>{point.jobid}</h3></th></tr>',
+        footerFormat: '</table>',
+        followPointer: true
+    },
+
+    plotOptions: {
+        series: {
+            dataLabels: {
+                enabled: true,
+                format: '{point.jobid}'
+            }
+        }
+    },
+
+    series: [{
+        data:
+            {{mem_bubble_data | safe }}
+    }]
+
+});
+Highcharts.chart('cpu_mem_bubble_plot', {
+
+    chart: {
+        type: 'bubble',
+        plotBorderWidth: 1,
+        zoomType: 'xy'
+    },
+
+    legend: {
+        enabled: false
+    },
+
+    title: {
+        text: 'Absolute Numbers'
+    },
+
+    xAxis: {
+        gridLineWidth: 1,
+        title: {
+            text: 'Max Memory Used (GB)'
+        },
+        labels: {
+            format: '{value} GB'
+        }
+    },
+
+    yAxis: {
+        startOnTick: false,
+        endOnTick: false,
+        title: {
+            text: 'Average CPU Usage (%)'
+        },
+        labels: {
+            format: '{value} %'
+        },
+        maxPadding: 0.2
+    },
+
+    tooltip: {
+        useHTML: true,
+        headerFormat: '<table>',
+        pointFormat: '<tr><th colspan="2"><h3>{point.jobid}</h3></th></tr>',
+        footerFormat: '</table>',
+        followPointer: true
+    },
+
+    plotOptions: {
+        series: {
+            dataLabels: {
+                enabled: true,
+                format: '{point.jobid}'
+            }
+        }
+    },
+
+    series: [{
+        data:
+            {{cpu_mem_bubble_data | safe }}
+    }]
+
+});
+Highcharts.chart('cpu_mem_rel_bubble_plot', {
+
+    chart: {
+        type: 'bubble',
+        plotBorderWidth: 1,
+        zoomType: 'xy'
+    },
+
+    legend: {
+        enabled: false
+    },
+
+    title: {
+        text: 'Relative Numbers'
+    },
+
+    xAxis: {
+        gridLineWidth: 1,
+        title: {
+            text: 'Max Memory Used (%)'
+        },
+        labels: {
+            format: '{value} %'
+        }
+    },
+
+    yAxis: {
+        startOnTick: false,
+        endOnTick: false,
+        title: {
+            text: 'Average CPU Usage (%)'
+        },
+        labels: {
+            format: '{value} %'
+        },
+        maxPadding: 0.2
+    },
+
+    tooltip: {
+        useHTML: true,
+        headerFormat: '<table>',
+        pointFormat: '<tr><th colspan="2"><h4>{point.jobid}</h4></th></tr>'+
+                     '<tr><th colspan="2">{point.jobname}</th></tr>',
+        footerFormat: '</table>',
+        followPointer: true
+    },
+
+    plotOptions: {
+        series: {
+            dataLabels: {
+                enabled: true,
+                format: '{point.jobid}'
+            }
+        }
+    },
+
+    series: [{
+        data:
+            {{cpu_mem_rel_bubble_data | safe }}
+    }]
+
+});
+</script>
+{% endblock body %}
